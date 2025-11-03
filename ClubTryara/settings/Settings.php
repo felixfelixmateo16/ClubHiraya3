@@ -16,10 +16,11 @@ include 'ChangePassword.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- path is relative to settings/ folder, so go up one level -->
+    <link rel="stylesheet" href="../css/style.css">
 
-    <!-- Load the app.js file that requests products from php/get_products.php -->
-    <script defer src="js/app.js"></script>
+    <!-- Load server -> client sync script ONLY (do not load the full POS app here) -->
+    <script defer src="../js/settings-sync.js"></script>
 </head>
 <body<?php if (isset($_SESSION['dark_mode']) && $_SESSION['dark_mode']) echo ' class="dark-mode"'; ?>>
     <noscript>

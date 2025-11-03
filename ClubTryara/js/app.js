@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadServerSettings() {
       try {
-        const res = await fetch('api/get_settings.php', { cache: 'no-store' });
+        const res = await fetch('api/get_settings.php', { cache: 'no-store', credentials: 'same-origin' });
         if (!res.ok) throw new Error('Failed to load settings: ' + res.status);
         const s = await res.json();
         SERVICE_RATE = (Number(s.service_charge) || 10) / 100;
@@ -281,7 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
           img.removeEventListener('error', handleImgError);
 
           const fileName = raw.split('/').pop();
-          const trimmedRaw = raw.replace(/^\.\//, '').replace(/^\//, '');
+          const trimmedRaw = raw.replace(/^
+./, '').replace(/^
+/, '');
 
           const candidates = [
             `ClubTryara/${trimmedRaw}`,
@@ -577,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
       closeBtn.id = 'closeDraftModal_js';
       closeBtn.setAttribute('aria-label', 'Close dialog');
       closeBtn.innerHTML = '&times;';
-      closeBtn.addEventListener('click', () => draftModal.classList.add('hidden'));
+      closeBtn.addEventListener('click', () => draftModal.classList.add('hidden')); 
       draftModalContent.appendChild(closeBtn);
 
       const h3 = document.createElement('h3'); h3.textContent = 'Drafts'; draftModalContent.appendChild(h3);
