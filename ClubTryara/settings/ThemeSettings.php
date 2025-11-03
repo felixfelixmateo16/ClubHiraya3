@@ -41,7 +41,7 @@ function renderThemeSettings() {
             </div>
 
             <div>
-                <label style="font-weight:bold;display:block;margin-bottom:8px;">Accent Colors</label>
+                <label style="font-weight:bold;display:block;margin-bottom:8px;">Sidebar Color</label>
                 <div style="display:flex;align-items:center;gap:12px;">
                     <label title="Pink / Purple">
                         <input type="radio" name="accent_color" value="#d33fd3" '.$pinkChecked.' onchange="this.form.submit()" style="display:none;">
@@ -66,6 +66,10 @@ function renderThemeSettings() {
     // Immediately apply the accent color for this settings page (so sidebar updates immediately).
     // Other pages will need the same snippet (or a central header include) to apply session accent on page load.
     $accentValue = htmlspecialchars($accent, ENT_QUOTES);
+    $themeValue = $isDark ? 'dark' : 'light';
+
+    // Also synchronize client-side localStorage theme so other forms (notifications/system) which use POST
+    // and then let client-side JS re-evaluate do not override the server choice incorrectly.
     echo '
     <script>
       (function(){
@@ -80,6 +84,14 @@ function renderThemeSettings() {
           var g = gradientMap[accent] || gradientMap["#d33fd3"];
           document.documentElement.style.setProperty("--accent-start", g[0]);
           document.documentElement.style.setProperty("--accent-end", g[1]);
+
+          // persist the server-selected theme to localStorage so client-side theme code
+          // will remain in sync after other form submissions.
+          try {
+            localStorage.setItem("theme", "'.$themeValue.'");
+            // also provide a small global flag for apps to read immediately
+            window.SERVER_THEME = "'.$themeValue.'";
+          } catch(e) { /* ignore localStorage errors */ }
         } catch(e) { console.error(e) }
       })();
     </script>
