@@ -1,6 +1,6 @@
 /**
  * Fixed app.js with:
- * - dynamic TAX_RATE and SERVICE_RATE fetched from php/get_settings.php
+ * - dynamic TAX_RATE and SERVICE_RATE fetched from api/get_settings.php
  * - notifications (sound/toast) wired to server session settings
  * - small low-stock check (if products contain a "stock" field)
  *
@@ -281,9 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
           img.removeEventListener('error', handleImgError);
 
           const fileName = raw.split('/').pop();
-          const trimmedRaw = raw.replace(/^
-./, '').replace(/^
-/, '');
+          // Safely remove leading ./ or /
+          const trimmedRaw = raw.replace(/^\.\//, '').replace(/^\//, '');
 
           const candidates = [
             `ClubTryara/${trimmedRaw}`,
@@ -579,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
       closeBtn.id = 'closeDraftModal_js';
       closeBtn.setAttribute('aria-label', 'Close dialog');
       closeBtn.innerHTML = '&times;';
-      closeBtn.addEventListener('click', () => draftModal.classList.add('hidden')); 
+      closeBtn.addEventListener('click', () => draftModal.classList.add('hidden'));
       draftModalContent.appendChild(closeBtn);
 
       const h3 = document.createElement('h3'); h3.textContent = 'Drafts'; draftModalContent.appendChild(h3);

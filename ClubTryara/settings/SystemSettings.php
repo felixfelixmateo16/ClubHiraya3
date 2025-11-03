@@ -1,7 +1,7 @@
 <?php
 function renderSystemSettings() {
     // Handle POST first (PRG) so the page displays fresh values after submit
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form']) && $_POST['form'] === 'system') {
         if (isset($_POST['currency'])) $_SESSION['currency'] = $_POST['currency'];
         if (isset($_POST['tax'])) $_SESSION['tax'] = $_POST['tax'];
         if (isset($_POST['service_charge'])) $_SESSION['service_charge'] = $_POST['service_charge'];
@@ -20,6 +20,7 @@ function renderSystemSettings() {
     <div>
         <h2>System Settings</h2>
         <form method="POST">
+            <input type="hidden" name="form" value="system">
             <label>Currency
                 <select name="currency" onchange="this.form.submit()">
                     <option value="PHP" '.($currency=='PHP'?'selected':'').'>PHP</option>

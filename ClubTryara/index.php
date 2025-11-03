@@ -6,8 +6,8 @@
     <title>Club Tryara</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/style.css">
-    <!-- Load settings-sync.js first so it can apply server settings (theme, tax/service, notifications)
-         before the main POS app starts. -->
+
+    <!-- Run settings-sync BEFORE the main app so theme and notification flags from the server are applied first -->
     <script defer src="js/settings-sync.js"></script>
     <script defer src="js/app.js"></script>
 </head>

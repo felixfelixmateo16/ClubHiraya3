@@ -4,8 +4,8 @@ function renderThemeSettings() {
     $isDark = isset($_SESSION['dark_mode']) ? $_SESSION['dark_mode'] : false;
     $accent = isset($_SESSION['accent_color']) ? $_SESSION['accent_color'] : '#d33fd3'; // default pink/purple gradient key
 
-    // Handle POST (POST-Redirect-GET)
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle POST (POST-Redirect-GET) - only when the theme form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form']) && $_POST['form'] === 'theme') {
         // dark_mode checkbox
         $_SESSION['dark_mode'] = isset($_POST['dark_mode']);
 
@@ -29,6 +29,7 @@ function renderThemeSettings() {
     <div>
         <h2>Theme Settings</h2>
         <form method="POST" class="theme-form" style="display:flex;flex-direction:column;gap:16px;">
+            <input type="hidden" name="form" value="theme">
             <div class="theme-switch-row">
                 <span class="theme-label">Dark Mode</span>
                 <label class="switch">

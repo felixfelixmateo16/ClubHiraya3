@@ -5,8 +5,8 @@ function renderNotificationsSettings() {
     $orderAlerts = isset($_SESSION['notify_order']) ? $_SESSION['notify_order'] : false;
     $lowStock = isset($_SESSION['notify_low_stock']) ? $_SESSION['notify_low_stock'] : false;
 
-    // Handle POST (PRG)
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle POST (PRG) - only when the notifications form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form']) && $_POST['form'] === 'notifications') {
         $_SESSION['notify_sound'] = isset($_POST['notify_sound']);
         $_SESSION['notify_order'] = isset($_POST['notify_order']);
         $_SESSION['notify_low_stock'] = isset($_POST['notify_low_stock']);
@@ -24,6 +24,7 @@ function renderNotificationsSettings() {
     <div>
         <h2>Notifications</h2>
         <form method="POST" class="notifications-form" style="display:flex;flex-direction:column;gap:12px;">
+            <input type="hidden" name="form" value="notifications">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
                 <div style="font-weight:700;">Enable Sound</div>
                 <label class="switch">
