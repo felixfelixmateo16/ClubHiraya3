@@ -20,7 +20,6 @@ function renderNotificationsSettings() {
     $orderChecked = $orderAlerts ? 'checked' : '';
     $lowStockChecked = $lowStock ? 'checked' : '';
 
-    // Output form with same switch UI for consistency
     echo '
     <div>
         <h2>Notifications</h2>
@@ -52,8 +51,7 @@ function renderNotificationsSettings() {
     </div>
     ';
 
-    // Expose notification settings and theme info to client-side code on this page so that the UI and other scripts
-    // can immediately react without an extra fetch.
+    // Expose notification settings to client-side for immediate use by JS
     $s = $sound ? 'true' : 'false';
     $o = $orderAlerts ? 'true' : 'false';
     $l = $lowStock ? 'true' : 'false';
@@ -65,8 +63,6 @@ function renderNotificationsSettings() {
         orderAlerts: $o,
         lowStock: $l
       };
-      // Also expose for convenience
-      window.APP_NOTIFICATIONS = window.SERVER_SETTINGS.notifications;
     </script>
     ";
 }

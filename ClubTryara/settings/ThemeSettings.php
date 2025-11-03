@@ -24,7 +24,7 @@ function renderThemeSettings() {
     $blueChecked = $accent === '#4b4bff' ? 'checked' : '';
     $grayChecked = $accent === '#bdbdbd' ? 'checked' : '';
 
-    // Output form HTML (note: use concatenation for dynamic attributes)
+    // Output form HTML
     echo '
     <div>
         <h2>Theme Settings</h2>
@@ -63,33 +63,27 @@ function renderThemeSettings() {
     </div>
     ';
 
-    // Immediately apply the accent color for this settings page (so sidebar updates immediately).
-    // Other pages will need the same snippet (or a central header include) to apply session accent on page load.
+    // Immediately apply the accent color for this settings page and sync server theme to localStorage.
     $accentValue = htmlspecialchars($accent, ENT_QUOTES);
     $themeValue = $isDark ? 'dark' : 'light';
 
-    // Also synchronize client-side localStorage theme so other forms (notifications/system) which use POST
-    // and then let client-side JS re-evaluate do not override the server choice incorrectly.
     echo '
     <script>
       (function(){
         try {
           var accent = "'.$accentValue.'";
-          // map accent color to a gradient start/end pair
           var gradientMap = {
-            "#d33fd3": ["#d33fd3", "#a2058f"], // pink/purple
-            "#4b4bff": ["#4b4bff", "#001b89"], // blue
-            "#bdbdbd": ["#bdbdbd", "#7a7a7a"]  // gray
+            "#d33fd3": ["#d33fd3", "#a2058f"],
+            "#4b4bff": ["#4b4bff", "#001b89"],
+            "#bdbdbd": ["#bdbdbd", "#7a7a7a"]
           };
           var g = gradientMap[accent] || gradientMap["#d33fd3"];
           document.documentElement.style.setProperty("--accent-start", g[0]);
           document.documentElement.style.setProperty("--accent-end", g[1]);
 
-          // persist the server-selected theme to localStorage so client-side theme code
-          // will remain in sync after other form submissions.
+          // Persist the server-selected theme to localStorage so client JS will remain in sync.
           try {
             localStorage.setItem("theme", "'.$themeValue.'");
-            // also provide a small global flag for apps to read immediately
             window.SERVER_THEME = "'.$themeValue.'";
           } catch(e) { /* ignore localStorage errors */ }
         } catch(e) { console.error(e) }

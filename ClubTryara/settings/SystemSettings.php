@@ -1,5 +1,17 @@
 <?php
 function renderSystemSettings() {
+    // Handle POST first (PRG) so the page displays fresh values after submit
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['currency'])) $_SESSION['currency'] = $_POST['currency'];
+        if (isset($_POST['tax'])) $_SESSION['tax'] = $_POST['tax'];
+        if (isset($_POST['service_charge'])) $_SESSION['service_charge'] = $_POST['service_charge'];
+
+        // redirect to avoid rendering stale values and to keep behavior consistent with other settings pages
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit();
+    }
+
+    // Read session values (defaults if not set)
     $currency = isset($_SESSION['currency']) ? $_SESSION['currency'] : 'PHP';
     $tax = isset($_SESSION['tax']) ? $_SESSION['tax'] : '12';
     $service = isset($_SESSION['service_charge']) ? $_SESSION['service_charge'] : '10';
@@ -23,11 +35,5 @@ function renderSystemSettings() {
         </form>
     </div>
     ';
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['currency'])) $_SESSION['currency'] = $_POST['currency'];
-        if (isset($_POST['tax'])) $_SESSION['tax'] = $_POST['tax'];
-        if (isset($_POST['service_charge'])) $_SESSION['service_charge'] = $_POST['service_charge'];
-    }
 }
 ?>

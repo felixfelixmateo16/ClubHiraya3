@@ -1,17 +1,6 @@
 <?php
 // api/get_settings.php
-// Returns JSON containing current session settings used by the POS client
-// Place this file inside your api/ folder.
-
 session_start();
-
-// Optional: require authentication here if your POS requires login
-// if (!isset($_SESSION['user_id'])) {
-//     http_response_code(401);
-//     echo json_encode(['error' => 'unauthenticated']);
-//     exit;
-// }
-
 header('Content-Type: application/json');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 
